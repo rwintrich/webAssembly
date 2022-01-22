@@ -2,4 +2,3 @@
 *.wasm.map
 *.asm.js
 *node_modules/*
-*build/*
