@@ -1,24 +1,33 @@
 class WasmLoader {
     constructor() {
-
-    }
-    async wasm(path) {
-        console.log(`fetching ${path}`);
-        if (!WebAssembly.instantiateStreaming) {
-            return this.wasmFallBack(path);
+        this._imports = {
+            'env': {
+                abort() {
+                    throw new Error('Abort called from wasm file');
+                }
+            },
+            'index': {
+                log(n) { console.log(n) }
+            }
         }
-        const { instance } = await WebAssembly.instantiateStreaming(fetch(path));
+    }
+    async wasm(path, imports = this._imports) {
+        console.log(`fetching ${path}`);
+        if (!loader.instantiateStreaming) {
+            return this.wasmFallBack(path, imports);
+        }
+        const instance = await loader.instantiateStreaming(fetch(path), imports);
 
         return instance?.exports;
 
     }
 
     //for safari
-    async wasmFallBack() {
+    async wasmFallBack(imports) {
         console.log(`Using fallback`);
         const response = await fetch(path);
         const bytes = await response?.arrayBuffer();
-        const { instance } = await webAssembly.instantiate(bytes);
+        const instance = await loader.instantiate(bytes, imports);
         return instance?.exports;
     }
 }

@@ -16,14 +16,16 @@
     </script> -->
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"></script>
     <script src=/js/loader.js></script>
     <script>
         const WL = new WasmLoader();
         WL.wasm('/build/optimized.wasm')
           .then(instance => {
-          const { minusOne } = instance;
+         // const { minusOne } = instance;
+         const {fizzbuzz,__getString } = instance;
   
-          document.write(minusOne(44));
+          document.write(__getString(fizzbuzz(3)));
           });
     </script>
 </body>
