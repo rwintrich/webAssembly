@@ -1,7 +1,7 @@
 (module
  (type $i32_=>_none (func (param i32)))
- (type $none_=>_none (func))
  (type $i32_=>_i32 (func (param i32) (result i32)))
+ (type $none_=>_none (func))
  (type $i32_i32_=>_none (func (param i32 i32)))
  (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32)))
@@ -44,6 +44,7 @@
  (data (i32.const 1680) "\03\00\00\00 \00\00\00\00\00\00\00 ")
  (export "minusOne" (func $assembly/index/minusOne))
  (export "fizzbuzz" (func $assembly/index/fizzbuzz))
+ (export "readMemory" (func $assembly/index/readMemory))
  (export "__new" (func $~lib/rt/itcms/__new))
  (export "__pin" (func $~lib/rt/itcms/__pin))
  (export "__unpin" (func $~lib/rt/itcms/__unpin))
@@ -84,6 +85,10 @@
    return
   end
   i32.const 0
+ )
+ (func $assembly/index/readMemory (param $0 i32) (result i32)
+  local.get $0
+  i32.load8_u
  )
  (func $~lib/rt/itcms/visitRoots
   (local $0 i32)
@@ -1899,6 +1904,15 @@
   unreachable
  )
  (func $~start
+  i32.const 2
+  memory.grow
+  drop
+  i32.const 0
+  i32.const 21
+  i32.store8
+  i32.const 1
+  i32.const 99
+  i32.store8
   memory.size
   i32.const 16
   i32.shl

@@ -48,6 +48,7 @@
  (elem $0 (i32.const 1))
  (export "minusOne" (func $assembly/index/minusOne))
  (export "fizzbuzz" (func $assembly/index/fizzbuzz))
+ (export "readMemory" (func $assembly/index/readMemory))
  (export "__new" (func $~lib/rt/itcms/__new))
  (export "__pin" (func $~lib/rt/itcms/__pin))
  (export "__unpin" (func $~lib/rt/itcms/__unpin))
@@ -55,6 +56,17 @@
  (export "__rtti_base" (global $~lib/rt/__rtti_base))
  (export "memory" (memory $0))
  (start $~start)
+ (func $start:assembly/index
+  i32.const 2
+  memory.grow
+  drop
+  i32.const 0
+  i32.const 21
+  i32.store8
+  i32.const 1
+  i32.const 99
+  i32.store8
+ )
  (func $assembly/index/minusOne (param $0 i32) (result i32)
   local.get $0
   call $assembly/index/log
@@ -91,6 +103,10 @@
    return
   end
   i32.const 0
+ )
+ (func $assembly/index/readMemory (param $0 i32) (result i32)
+  local.get $0
+  i32.load8_u
  )
  (func $~lib/rt/itcms/Object#set:nextWithColor (param $0 i32) (param $1 i32)
   local.get $0
@@ -2562,6 +2578,7 @@
   unreachable
  )
  (func $~start
+  call $start:assembly/index
   memory.size
   i32.const 16
   i32.shl
