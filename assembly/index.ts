@@ -11,7 +11,7 @@ export function minusOne(n: i32): i32 {
 
 export function fizzbuzz(n: i32): String | null {
   if (n % 15 === 0) {
-    return "fizzbuzzz";
+    return "fizzbuzz";
   }
   if (n % 3 === 0) {
     return "fizz";
